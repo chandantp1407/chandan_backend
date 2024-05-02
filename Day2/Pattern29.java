@@ -2,13 +2,14 @@ package Patterns;
 
 import java.util.Scanner;
 
-public class Pattern27 {
+public class Pattern29 {
 	public static void main(String[] args) {
-//        5 
-//      4 5 4 
-//    3 4 5 4 3 
-//  2 3 4 5 4 3 2 
-//1 2 3 4 5 4 3 2 1 
+  
+//        A 
+//      A B A 
+//    A B C B A 
+//  A B C D C B A 
+//A B C D E D C B A 
 		Scanner sc=new Scanner(System.in);
 		System.out.println("Enter the number");
 		int n=sc.nextInt();
@@ -18,16 +19,16 @@ public class Pattern27 {
 			{
 				System.out.print("  ");
 			}
-			int x=n-i+1;
+			int x=65;
 			for(int k=1;k<=i*2-1;k++) {
 
 				if(k<i) {
-					System.out.print(x+" ");
+					System.out.print((char)x+" ");
 					x++;
 				}
 				else{
 
-					System.out.print(x+" ");
+					System.out.print((char)x+" ");
 					x--;
 				}
 			}
