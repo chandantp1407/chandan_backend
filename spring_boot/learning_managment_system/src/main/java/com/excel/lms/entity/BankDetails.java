@@ -2,10 +2,17 @@ package com.excel.lms.entity;
 
 import java.time.Year;
 
+import com.excel.lms.enums.AccountType;
+
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -21,8 +28,13 @@ public class BankDetails {
 	 
 	private String accountNo;
 	private String bankName;
-	private String accountType;
+
+	@Enumerated(EnumType.STRING)
+	private AccountType accountType;
 	private String ifscCode;
 	private String branch;
 	private String state;
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+	private EmployeePrimaryInfo employeePrimaryInfo;
 }

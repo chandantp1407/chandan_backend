@@ -1,8 +1,11 @@
 package com.excel.lms.entity;
 
-import java.time.LocalDate;
+
+import com.excel.lms.enums.MaritalStatus;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -25,6 +28,7 @@ public class EmployeeSecondaryInfo {
 	private String motherName;
 	private String spouseName;
 	private String passportNo;
-	private String maritalStatus;
+	@Enumerated(EnumType.STRING)
+	private MaritalStatus maritalStatus;
 
 }

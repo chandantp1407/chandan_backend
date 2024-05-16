@@ -1,4 +1,4 @@
-package com.excel.lms;
+ package com.excel.lms;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
