@@ -1,17 +1,24 @@
 package com.excel.demo.service;
 
 import java.util.ArrayList;
+
 import java.util.List;
 import java.util.Optional;
-
+import static com.excel.demo.constant.EmployeeConstants.EMPLOYEE_NOT_FOUND_EXCEPTION;
+import org.aspectj.lang.reflect.NoSuchAdviceException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.excel.demo.dto.EmployeeDto;
 import com.excel.demo.entity.Employee;
+import com.excel.demo.exception.NoEmployeeFoundException;
 import com.excel.demo.repository.EmployeeReposirory;
+import com.excel.demo.util.EmployeeUtil;
+
+import lombok.extern.slf4j.Slf4j;
 
 @Service
+@Slf4j
 public class EmployeeServiceImpl implements EmployeeService {
 
 	@Autowired
@@ -25,33 +32,31 @@ public class EmployeeServiceImpl implements EmployeeService {
 				.employeeNo(dto.getEmployeeNo()).build();	
 		Employee save=employeeReposirory.save(employee);
 
-		return EmployeeDto.builder().id(save.getId()).firstName(save.getFirstName()).lastName(save.getLastName())
-				.mobileNo(save.getMobileNo()).aadharNo(save.getAadharNo()).panNo(save.getPanNo())
-				.employeeNo(save.getEmployeeNo()).build();
+		return EmployeeUtil.employeeToDto(employee);
 	}
 
 
 	@Override
-	public Employee deleteEmployee(Integer id) {
+	public void deleteEmployee(Integer id) {
 		Optional<Employee> optional=employeeReposirory.findById(id);
 		if(optional.isPresent()) {
 			Employee emp=optional.get();
 			employeeReposirory.delete(emp);
-			return emp;
-		}
-		return null;
 
+		}
+		else
+			throw new NoEmployeeFoundException(EMPLOYEE_NOT_FOUND_EXCEPTION);
 	}
 
 
 	@Override
-	public Employee findEmployee(Integer id) {
+	public EmployeeDto findEmployee(Integer id) {
 		Optional<Employee> optional=employeeReposirory.findById(id);
 		if(optional.isPresent()) {
 			Employee emp=optional.get();
-			return emp;
+			return EmployeeUtil.employeeToDto(emp);
 		}
-		return null;
+		throw new NoEmployeeFoundException(EMPLOYEE_NOT_FOUND_EXCEPTION);
 
 	}
 
@@ -73,9 +78,14 @@ public class EmployeeServiceImpl implements EmployeeService {
 		Optional<Employee> optional=employeeReposirory.findById(id);
 		if(optional.isPresent()) {
 			Employee em	=optional.get();
-
+			log.info(dto.getFirstName());
+			em.setFirstName(dto.getFirstName());
+			em.setLastName(dto.getLastName());
+			Employee update =employeeReposirory.save(em);
+			return EmployeeUtil.employeeToDto(update);
 		}
-		return null;
+		else
+			 throw new NoEmployeeFoundException(EMPLOYEE_NOT_FOUND_EXCEPTION);
 	}
 }
 

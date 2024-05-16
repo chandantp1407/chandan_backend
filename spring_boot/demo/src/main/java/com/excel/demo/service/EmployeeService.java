@@ -7,8 +7,8 @@ import com.excel.demo.entity.Employee;
 
 public interface EmployeeService {
 	public EmployeeDto addEmployee(EmployeeDto dto);
-	public Employee deleteEmployee(Integer id);
-	public Employee findEmployee(Integer id);
+	public void deleteEmployee(Integer id);
+	public EmployeeDto findEmployee(Integer id);
 	public List<EmployeeDto> findAllEmployees();
 	public EmployeeDto updateEmployee(EmployeeDto dto,Integer id);
 }
