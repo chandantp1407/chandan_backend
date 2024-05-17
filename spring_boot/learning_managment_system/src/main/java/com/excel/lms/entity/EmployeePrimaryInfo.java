@@ -21,12 +21,14 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Getter @Setter @NoArgsConstructor @AllArgsConstructor
 @Entity
+@Builder
 @Table(name="employee_primary_info")
 public class EmployeePrimaryInfo {
 	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -49,25 +51,25 @@ public class EmployeePrimaryInfo {
 	@Enumerated(EnumType.STRING)
 	private EmployeeStatus employeeStatus;
 
-	@OneToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+	@OneToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL ,mappedBy = "employeePrimaryInfo")
 	private EmployeeSecondaryInfo employeeSecondaryInfo;
 
 	@OneToMany(fetch = FetchType.EAGER,cascade = CascadeType.ALL,mappedBy = "employeePrimaryInfo")
-	private List<EducationDetails> educationDetails=new ArrayList<EducationDetails>();
+	private List<EducationDetails> educationDetails;
 
 	@OneToMany(fetch =FetchType.EAGER,cascade = CascadeType.ALL,mappedBy = "employeePrimaryInfo")
-	private List<AddressDetails> addressDetails=new ArrayList<AddressDetails>();
+	private List<AddressDetails> addressDetails;
 
 	@OneToMany(fetch =FetchType.EAGER,cascade = CascadeType.ALL,mappedBy = "employeePrimaryInfo")
-	private List<BankDetails> bankDetails=new ArrayList<BankDetails>();
+	private List<BankDetails> bankDetails;
 
 
 	@ManyToMany(fetch = FetchType.EAGER,cascade = CascadeType.ALL,mappedBy = "employeePrimaryInfos")
-	private List<TechnicalSkills> technicalSkills=new ArrayList<TechnicalSkills>();
+	private List<TechnicalSkills> technicalSkills;
 
 	@OneToMany(fetch =FetchType.EAGER,cascade = CascadeType.ALL,mappedBy = "employeePrimaryInfo")
-	private List<ExperienceInfo> experienceInfos=new ArrayList<ExperienceInfo>();
+	private List<ExperienceInfo> experienceInfos;
 
 	@OneToMany(fetch =FetchType.EAGER,cascade = CascadeType.ALL,mappedBy = "employeePrimaryInfo")
-	private List<Contact> contacts=new ArrayList<Contact>();
+	private List<Contact> contacts;
 }

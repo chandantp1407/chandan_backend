@@ -10,6 +10,7 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
@@ -27,7 +28,7 @@ public class TechnicalSkills {
 	private String skillType;
 	private Integer yearOfExperience;
 	private double skillRating;
-	
+
 	@ManyToMany(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
-	private List<EmployeePrimaryInfo> employeePrimaryInfos=new ArrayList<EmployeePrimaryInfo>();
+	private List<EmployeePrimaryInfo> employeePrimaryInfos;
 }

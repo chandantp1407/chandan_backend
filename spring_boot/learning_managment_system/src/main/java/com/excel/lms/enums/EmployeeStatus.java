@@ -1,5 +1,12 @@
 package com.excel.lms.enums;
 
-public enum EmployeeStatus {
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 
+@RequiredArgsConstructor
+@Getter
+public enum EmployeeStatus {
+	ACTIVE("ACTIVE"),  TERMINATED("TERMINATED"),  ABSCOND("ABSCOND");
+
+	private final String employeeStatus;
 }

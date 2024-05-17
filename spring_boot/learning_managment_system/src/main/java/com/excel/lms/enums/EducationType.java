@@ -1,5 +1,13 @@
 package com.excel.lms.enums;
 
-public enum EducationType {
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 
+@RequiredArgsConstructor
+@Getter
+public enum EducationType {
+	UNDERGRADUATE("UNDERGRADUATE"),  POSTGRADUATE("POSTGRADUATE"),  ENGINEERING("ENGINEERING"), OTHERS("OTHERS");
+	
+
+	private final String educationType;
 }
