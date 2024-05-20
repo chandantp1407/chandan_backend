@@ -10,6 +10,7 @@ import lombok.Setter;
 @Getter @Setter @NoArgsConstructor @AllArgsConstructor
 @Builder
 public class EducationDetailsDto {
+	private String employeeId;
 	private Integer educationId;
 	private EducationType educationType;
 	private int yearOfPassing;

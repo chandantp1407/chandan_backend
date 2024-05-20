@@ -60,8 +60,8 @@ public class EmployeePrimaryInfo {
 	@OneToMany(fetch =FetchType.EAGER,cascade = CascadeType.ALL,mappedBy = "employeePrimaryInfo")
 	private List<AddressDetails> addressDetails;
 
-	@OneToMany(fetch =FetchType.EAGER,cascade = CascadeType.ALL,mappedBy = "employeePrimaryInfo")
-	private List<BankDetails> bankDetails;
+	@OneToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL ,mappedBy = "employeePrimaryInfo")
+	private BankDetails bankDetails;
 
 
 	@ManyToMany(fetch = FetchType.EAGER,cascade = CascadeType.ALL,mappedBy = "employeePrimaryInfos")

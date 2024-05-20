@@ -14,12 +14,14 @@ import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Getter @Setter @NoArgsConstructor @AllArgsConstructor
 @Entity
+@Builder
 @Table(name="employee_technicalskills_info")
 public class TechnicalSkills {
 	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)

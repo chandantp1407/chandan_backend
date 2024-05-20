@@ -12,6 +12,7 @@ import lombok.Setter;
 @Getter @Setter @NoArgsConstructor @AllArgsConstructor
 @Builder
 public class BankDetailsDto {
+	private String employeeId;
 	private Integer bankDetailsId;
 	private String accountNo;
 	private String bankName;

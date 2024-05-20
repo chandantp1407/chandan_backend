@@ -14,6 +14,7 @@ import lombok.Setter;
 public class SecondaryInfoDto {
 	private Integer seconadryInfoId;
 
+	private String employeeId;
 	private String panNo;
 	private String aadharNo;
 	private String fatherName;

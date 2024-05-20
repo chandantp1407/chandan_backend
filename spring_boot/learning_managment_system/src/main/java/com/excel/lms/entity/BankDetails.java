@@ -14,14 +14,17 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Getter @Setter @NoArgsConstructor @AllArgsConstructor
 @Entity
+@Builder
 @Table(name="employee_bank_Details")
 public class BankDetails {
 	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -35,7 +38,8 @@ public class BankDetails {
 	private String ifscCode;
 	private String branch;
 	private String state;
+	
 	@JoinColumn(name = "employee_id")
-	@ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+	@OneToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
 	private EmployeePrimaryInfo employeePrimaryInfo;
 }
