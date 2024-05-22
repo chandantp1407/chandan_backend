@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.excel.hms.dto.GuestDto;
+import com.excel.hms.dto.ReservationDto;
 import com.excel.hms.dto.ReservationDtoList;
 import com.excel.hms.dto.RoomDto;
 import com.excel.hms.entity.Guest;
@@ -43,7 +44,13 @@ public class ObjectUtil {
 	public static Reservation dtoToReservationEntity(ReservationDtoList dto) {
 
 		return Reservation.builder().checkInDate(dto.getCheckInDate()).checkOutDate(dto.getCheckOutDate())
-				.totalAmount(dto.getTotalAmount()).rooms(new ArrayList<>()).build();
+				.reservationId(dto.getReservationId()).totalAmount(dto.getTotalAmount()).rooms(new ArrayList<>()).build();
+	}
+
+	public static ReservationDto ReservationEntityToDto(Reservation dto) {
+
+		return ReservationDto.builder().reservationId(dto.getReservationId()).checkInDate(dto.getCheckInDate()).checkOutDate(dto.getCheckOutDate()).totalAmount(dto.getTotalAmount())
+				.isCancelled(dto.isCancelled()).isClosed(dto.isClosed()).build();
 	}
 
 }

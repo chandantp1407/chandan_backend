@@ -11,12 +11,14 @@ import lombok.Setter;
 @Getter @Setter @NoArgsConstructor @AllArgsConstructor
 @Builder
 public class ReservationDtoList {
+
+	private String reservationId;
 	private LocalDate checkInDate;
 	private LocalDate checkOutDate;
 	private double totalAmount;
-	
+
 	private GuestDto guestDto;
-	
+
 	private String roomNumber;
 	private List<Integer> rooms;
 }

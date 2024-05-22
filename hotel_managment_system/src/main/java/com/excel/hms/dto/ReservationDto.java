@@ -11,6 +11,9 @@ import lombok.Setter;
 @Builder
 public class ReservationDto {
 
+private Integer reservationNo;
+	
+	private String reservationId;
 	private LocalDate checkInDate;
 	private LocalDate checkOutDate;
 	private double totalAmount;

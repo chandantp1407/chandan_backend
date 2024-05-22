@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
@@ -25,19 +26,21 @@ import lombok.Setter;
 @Table(name="reservations_table")
 public class Reservation {
 	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer reservationId;
-	
+	private Integer reservationNo;
+
+	@Column(unique = true)
+	private String reservationId;
 	private LocalDate checkInDate;
 	private LocalDate checkOutDate;
 	private double totalAmount;
 	private boolean isCancelled;
 	private boolean isClosed;
-	
+
 	@JoinColumn(name = "guestId")
 	@ManyToOne(fetch = FetchType.LAZY,cascade =CascadeType.ALL)
 	private Guest guest;
-	
+
 	@ManyToMany(fetch =FetchType.EAGER,cascade = CascadeType.ALL)
 	private List<Room> rooms;
-	 
+
 }
