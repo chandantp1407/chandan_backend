@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+	 
+	 <context:annotation-config/>
+	 
+	 <bean name="address" class="com.excel.springdemo.autowired.annotation.Address">
+	<property name="place" value="mysore"></property>
+	</bean>
+	 <bean name="address1" class="com.excel.springdemo.autowired.annotation.Address">
+	<property name="place" value="Banglore"></property>
+	</bean>
+	<bean name="employee" class="com.excel.springdemo.autowired.annotation.Employee">
+	
+	</bean>
+	 </beans>

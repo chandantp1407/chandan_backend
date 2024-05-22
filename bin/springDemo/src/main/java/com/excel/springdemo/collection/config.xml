@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="https://www.springframework.org/schema/context"
+	xmlns:p="https://www.springframework.org/schema/p"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+						http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+						http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
+
+	<util:list list-class="java.util.ArrayList" id="phones">
+		<value>345285437</value>
+		<value>349424634</value>
+		<value>341287346</value>
+	</util:list>
+
+	<util:set set-class="java.util.HashSet" id="skills">
+		<value>java</value>
+		<value>spring</value>
+	</util:set>
+
+	<util:map map-class="java.util.HashMap" id="nominee">
+		<entry key="mother" value="104"></entry>
+	</util:map>
+
+	<bean name="employee"
+		class="com.excel.springdemo.collection.Employee">
+		<property name="name" value="John"></property>
+
+		<property name="phones" ref="phones">
+
+			<!-- <list> <value>345678342</value> <value>345674365</value> <value>345679833</value> 
+				</list> -->
+		</property>
+
+		<property name="skills" ref="skills">
+
+			<!-- <set> <value>java</value> <value>spring</value> </set> -->
+
+		</property>
+
+		<property name="nominees" ref="nominee">
+			<!-- <map> <entry key="father" value="100"></entry> </map> -->
+		</property>
+
+	</bean>
+
+
+</beans>

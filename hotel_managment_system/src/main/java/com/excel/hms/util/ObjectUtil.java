@@ -1,8 +1,13 @@
 package com.excel.hms.util;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.excel.hms.dto.GuestDto;
+import com.excel.hms.dto.ReservationDtoList;
 import com.excel.hms.dto.RoomDto;
 import com.excel.hms.entity.Guest;
+import com.excel.hms.entity.Reservation;
 import com.excel.hms.entity.Room;
 
 public class ObjectUtil {
@@ -35,9 +40,10 @@ public class ObjectUtil {
 
 	}
 
-	public static Object dtoToReservationEntity(RoomDto res) {
-	
-		return null;
+	public static Reservation dtoToReservationEntity(ReservationDtoList dto) {
+
+		return Reservation.builder().checkInDate(dto.getCheckInDate()).checkOutDate(dto.getCheckOutDate())
+				.totalAmount(dto.getTotalAmount()).rooms(new ArrayList<>()).build();
 	}
 
 }

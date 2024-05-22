@@ -85,8 +85,24 @@ public class HotelManagmentServiceImpl implements HotelManagmentService{
 
 	@Override
 	public String saveReservation(ReservationDtoList dto) {
-			
-		
+		Optional<Guest> optional=guestRepository.findByEmail(dto.getGuestDto().getEmail());
+		if(optional.isPresent()) {
+			Guest guest=optional.get();
+			Reservation reservations=ObjectUtil.dtoToReservationEntity(dto);
+			guest.getReservations().add(reservations);
+			reservations.setGuest(guest);
+
+			List<Integer> rooms=dto.getRooms();
+			rooms.stream().forEach(room -> room.getReservations().add(reservations));
+			dto.getRooms().stream().map(i->{
+				Room r	=roomRepository.findById(i);
+				return r;
+			}).toList();
+		}
+
+		else {
+
+		}
 		return null;
 	}
 

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="https://www.springframework.org/schema/context"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd https://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd">
+	<bean id="address"
+		class="com.excel.springdemo.constructor.Address">
+		<constructor-arg value="123" />
+		<constructor-arg value="Paris" />
+	</bean>
+
+	<bean id="employee"
+		class="com.excel.springdemo.constructor.Employee">
+
+		<constructor-arg value="123" />
+		<constructor-arg value="John" />
+		<constructor-arg ref="address" />
+
+	</bean>
+</beans>
