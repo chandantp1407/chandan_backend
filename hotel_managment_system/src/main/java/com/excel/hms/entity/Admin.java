@@ -28,8 +28,6 @@ public class Admin {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer adminNo;
 
-	private String adminId;
-
 	private String password;
 
 	@Column(unique = true)

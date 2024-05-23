@@ -195,12 +195,12 @@ public class HotelManagmentServiceImpl implements HotelManagmentService{
 	}
 
 	@Override
-	public String addAdminInfo(AdminDTO dto) {
+	public Integer addAdminInfo(AdminDTO dto) {
 		Admin admin = AdminUtil.dtoToEntity(dto);
 		if(!adminRepository.findByAdminName(dto.getAdminName()).isPresent()) 
 		{
 			Admin save = adminRepository.save(admin);
-			return save.getAdminId();
+			return save.getAdminNo();
 		}
 		throw new AdminExistenceException("Admin name is already present");
 	}
@@ -221,7 +221,7 @@ public class HotelManagmentServiceImpl implements HotelManagmentService{
 
 	@Override
 	public AdminDTO updateAdminPassword(AdminDTO dto) {
-        Optional<Admin> optional = adminRepository.findByAdminId(dto.getAdminId());
+        Optional<Admin> optional = adminRepository.findByAdminNo(dto.getAdminNo());
         if(optional.isPresent()) {
         	Admin password = optional.get();
         	password = AdminUtil.updatepassword(password,dto);
@@ -233,12 +233,12 @@ public class HotelManagmentServiceImpl implements HotelManagmentService{
 
 	@Override
 	public List<AdminDTO> getAdmin(AdminDTO admin) {
-		return adminRepository.findAll().stream().map(x->AdminDTO.builder().adminId(x.getAdminId()).adminNo(x.getAdminNo()).adminName(x.getAdminName()).password(x.getPassword()).roleType(x.getRoleType()).build()).toList();
+		return adminRepository.findAll().stream().map(x->AdminDTO.builder().adminNo(x.getAdminNo()).adminName(x.getAdminName()).password(x.getPassword()).roleType(x.getRoleType()).build()).toList();
 	}
 
 	@Override
 	public AdminDTO getAdminById(AdminDTO dto) {
-     Optional<Admin> optional = adminRepository.findByAdminId(dto.getAdminId());
+     Optional<Admin> optional = adminRepository.findByAdminNo(dto.getAdminNo());
      if(optional.isPresent()) {
     	 Admin admin = optional.get();
     	 return AdminUtil.dtoToGetEntity(admin);

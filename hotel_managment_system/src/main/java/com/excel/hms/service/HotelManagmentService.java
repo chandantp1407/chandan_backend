@@ -31,7 +31,7 @@ public interface HotelManagmentService {
 
 	public List<ReservationDto> getAllReservations();
 
-	public String addAdminInfo(AdminDTO dto);
+	public Integer addAdminInfo(AdminDTO dto);
 
 	public String adminLogin(AdminDTO dto);
 

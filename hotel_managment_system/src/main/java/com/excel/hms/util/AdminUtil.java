@@ -10,7 +10,7 @@ public class AdminUtil {
 	}
 	
 	public static Admin dtoToEntity(AdminDTO dto) {
-		return Admin.builder().adminId(dto.getAdminId()).adminNo(dto.getAdminNo()).adminName(dto.getAdminName()).password(dto.getPassword()).roleType(dto.getRoleType()).build();
+		return Admin.builder().adminNo(dto.getAdminNo()).adminName(dto.getAdminName()).password(dto.getPassword()).roleType(dto.getRoleType()).build();
 	}
 
 	public static Admin updatepassword(Admin password, AdminDTO dto) {
@@ -20,12 +20,12 @@ public class AdminUtil {
 
 	public static AdminDTO dtoToEntity(Admin save) {
 		
-		return AdminDTO.builder().adminId(save.getAdminId()).adminName(save.getAdminName()).password(save.getPassword()).roleType(save.getRoleType()).build();
+		return AdminDTO.builder().adminName(save.getAdminName()).password(save.getPassword()).roleType(save.getRoleType()).build();
 	}
 
 	public static AdminDTO dtoToGetEntity(Admin admin) {
 	
-		return AdminDTO.builder().adminId(admin.getAdminId()).adminNo(admin.getAdminNo()).adminName(admin.getAdminName())
+		return AdminDTO.builder().adminNo(admin.getAdminNo()).adminName(admin.getAdminName())
 				.password(admin.getPassword()).roleType(admin.getRoleType()).build();
 	}
 	

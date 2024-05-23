@@ -4,6 +4,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -25,6 +26,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 @RestController
 @RequestMapping(path = "/api/v1/hotelmanagment")
+@CrossOrigin
 public class HotelManagmentController {
 
 	@Autowired
@@ -103,9 +105,9 @@ public class HotelManagmentController {
 				.isError(false).message("Reservations deatils getting succesfully").build());
 	}
 	@PostMapping("/register")
-	public ResponseEntity<CommonResponse<String>>postAdminInfo(@RequestBody AdminDTO dto){
-		String adminId = hotelManagmentService.addAdminInfo(dto);
-		return ResponseEntity.status(HttpStatus.CREATED).body(CommonResponse.<String>builder().data(adminId).isError(false).message("Admin Registered Successfully").build());	
+	public ResponseEntity<CommonResponse<Integer>>postAdminInfo(@RequestBody AdminDTO dto){
+		Integer adminId = hotelManagmentService.addAdminInfo(dto);
+		return ResponseEntity.status(HttpStatus.CREATED).body(CommonResponse.<Integer>builder().data(adminId).isError(false).message("Admin Registered Successfully").build());	
 	}
 
 	@PostMapping("/login")

@@ -16,7 +16,7 @@ public class AdminDTO {
 
 	private Integer adminNo;
 
-	private String adminId;
+	
 
 	private String password;
 
