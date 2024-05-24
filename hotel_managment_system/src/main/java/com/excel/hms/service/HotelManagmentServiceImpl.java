@@ -40,10 +40,10 @@ public class HotelManagmentServiceImpl implements HotelManagmentService{
 
 	@Autowired
 	private ReservationRepository reservationRepository;
-	
+
 	@Autowired
 	private AdminRepository adminRepository;
-	
+
 	@Autowired
 	private StaffRepository staffRepository;
 
@@ -207,27 +207,27 @@ public class HotelManagmentServiceImpl implements HotelManagmentService{
 
 	@Override
 	public String adminLogin(AdminDTO dto) {
-       Optional<Admin> optional = adminRepository.findByAdminName(dto.getAdminName());
-       if (optional.isPresent()) {
-           Admin admin = optional.get();
-           if (admin.getPassword().equals(dto.getPassword())) {
-               return admin.getRoleType().getRoleType();
-           } else {
-               throw new AdminExistenceException("Invalid Password!");
-           }
-       }
-       throw new AdminExistenceException("Invalid Username!");
-   }
+		Optional<Admin> optional = adminRepository.findByAdminName(dto.getAdminName());
+		if (optional.isPresent()) {
+			Admin admin = optional.get();
+			if (admin.getPassword().equals(dto.getPassword())) {
+				return admin.getRoleType().getRoleType();
+			} else {
+				throw new AdminExistenceException("Invalid Password!");
+			}
+		}
+		throw new AdminExistenceException("Invalid Username!");
+	}
 
 	@Override
 	public AdminDTO updateAdminPassword(AdminDTO dto) {
-        Optional<Admin> optional = adminRepository.findByAdminNo(dto.getAdminNo());
-        if(optional.isPresent()) {
-        	Admin password = optional.get();
-        	password = AdminUtil.updatepassword(password,dto);
-        	Admin save = adminRepository.save(password);
-        	return AdminUtil.dtoToEntity(save);
-        }
+		Optional<Admin> optional = adminRepository.findByAdminNo(dto.getAdminNo());
+		if(optional.isPresent()) {
+			Admin password = optional.get();
+			password = AdminUtil.updatepassword(password,dto);
+			Admin save = adminRepository.save(password);
+			return AdminUtil.dtoToEntity(save);
+		}
 		throw new AdminExistenceException("Password is Not Valid!");
 	}
 
@@ -238,46 +238,46 @@ public class HotelManagmentServiceImpl implements HotelManagmentService{
 
 	@Override
 	public AdminDTO getAdminById(AdminDTO dto) {
-     Optional<Admin> optional = adminRepository.findByAdminNo(dto.getAdminNo());
-     if(optional.isPresent()) {
-    	 Admin admin = optional.get();
-    	 return AdminUtil.dtoToGetEntity(admin);
-     }else {
-		throw new AdminExistenceException("Employee Id Not Found");
-	}
+		Optional<Admin> optional = adminRepository.findByAdminNo(dto.getAdminNo());
+		if(optional.isPresent()) {
+			Admin admin = optional.get();
+			return AdminUtil.dtoToGetEntity(admin);
+		}else {
+			throw new AdminExistenceException("Employee Id Not Found");
+		}
 	}
 
 	@Override
-    public String addStaffInfo(StaffDTO staffDto)  {
-        if (!isAdmin(staffDto.getAdminNo())) {
-            throw new AdminExistenceException("Only admins are allowed to add staff details");
-        }
-        Staff staff = StaffUtil.dtoToEntity(staffDto);
-        if (!staffRepository.findByStaffId(staffDto.getStaffId()).isPresent()) {
-            Staff savedStaff = staffRepository.save(staff);
-            return savedStaff.getStaffId();
-        }
-        throw new AdminExistenceException("Staff Id is already present");
-    }
-    private boolean isAdmin(Integer adminNo) {
-        Optional<Admin> adminOptional = adminRepository.findById(adminNo);
-       return adminOptional.isPresent();
-    }
+	public String addStaffInfo(StaffDTO staffDto)  {
+		if (!isAdmin(staffDto.getAdminNo())) {
+			throw new AdminExistenceException("Only admins are allowed to add staff details");
+		}
+		Staff staff = StaffUtil.dtoToEntity(staffDto);
+		if (!staffRepository.findByStaffId(staffDto.getStaffId()).isPresent()) {
+			Staff savedStaff = staffRepository.save(staff);
+			return savedStaff.getStaffId();
+		}
+		throw new AdminExistenceException("Staff Id is already present");
+	}
+	private boolean isAdmin(Integer adminNo) {
+		Optional<Admin> adminOptional = adminRepository.findById(adminNo);
+		return adminOptional.isPresent();
+	}
 
 	@Override
 	public StaffDTO updateStaffPassword(StaffDTO dto) {
-	  if(!isAdmin(dto.getAdminNo())) {
-		  throw new AdminExistenceException("Only Admins Can Update Staff Password");
-	  }
+		if(!isAdmin(dto.getAdminNo())) {
+			throw new AdminExistenceException("Only Admins Can Update Staff Password");
+		}
 		Optional<Staff> optional = staffRepository.findByStaffId(dto.getStaffId());
 		if(optional.isPresent()) {
 			Staff password = optional.get();
 			password = StaffUtil.updatePassword(password,dto);
 			Staff save = staffRepository.save(password);
 			return StaffUtil.dtoToEntity(save);
+		}
+		throw new AdminExistenceException("Password is Not Valid!");
 	}
-	throw new AdminExistenceException("Password is Not Valid!");
-  }
 
 	@Override
 	public String deleteStaff(StaffDTO dto) {
@@ -291,6 +291,5 @@ public class HotelManagmentServiceImpl implements HotelManagmentService{
 		}
 		throw new AdminExistenceException("Staff Id not Found!");
 	}
-	
 }
 
