@@ -26,10 +26,7 @@ import lombok.Setter;
 @Table(name="reservations_table")
 public class Reservation {
 	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer reservationNo;
-
-	@Column(unique = true)
-	private String reservationId;
+	private Integer reservationId;
 	private LocalDate checkInDate;
 	private LocalDate checkOutDate;
 	private double totalAmount;

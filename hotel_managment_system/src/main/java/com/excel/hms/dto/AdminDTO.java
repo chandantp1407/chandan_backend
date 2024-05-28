@@ -15,13 +15,8 @@ import lombok.Setter;
 public class AdminDTO {
 
 	private Integer adminNo;
-
-	
-
 	private String password;
-
 	private String adminName;
-
 	private RoleType roleType;
 
 }

@@ -12,7 +12,7 @@ import lombok.Setter;
 @Builder
 public class ReservationDtoList {
 
-	private String reservationId;
+	private Integer reservationId;
 	private LocalDate checkInDate;
 	private LocalDate checkOutDate;
 	private double totalAmount;

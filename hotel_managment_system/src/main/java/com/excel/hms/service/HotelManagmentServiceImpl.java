@@ -1,6 +1,15 @@
 package com.excel.hms.service;
 
 import java.util.List;
+import static com.excel.hms.constant.GuestConstant.GUEST_DETAILS_DELETED_MESSAGE;
+import static com.excel.hms.constant.GuestConstant.GUEST_EMAIL_FOUND_MESSAGE;
+import static com.excel.hms.constant.GuestConstant.GUEST_EMAIL_NOTFOUND_MESSAGE;
+import static com.excel.hms.constant.RoomConstant.ROOMNUMBER_FOUND_MESSAGE;
+import static com.excel.hms.constant.RoomConstant.ROOMNUMBER_NOTFOUND_MESSAGE;
+import static com.excel.hms.constant.ReservationConstant.RESERVATION_NOTFOUND_MESSAGE;
+import static com.excel.hms.constant.ReservationConstant.RESERVATION_CLOSED_MESSAGE;
+import static com.excel.hms.constant.ReservationConstant.RESERVATION_CANCELLED_MESSAGE;
+import static com.excel.hms.constant.ReservationConstant.RESERVATION_DETAILS_SAVED_MESSAGE;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -47,6 +56,7 @@ public class HotelManagmentServiceImpl implements HotelManagmentService{
 	@Autowired
 	private StaffRepository staffRepository;
 
+	
 	@Override
 	public String saveGuest(GuestDto dto) {
 		if(!guestRepository.findByEmail(dto.getEmail()).isPresent()) {
@@ -55,8 +65,41 @@ public class HotelManagmentServiceImpl implements HotelManagmentService{
 			return guest1.getEmail();
 
 		}
+		throw new HotelException(GUEST_EMAIL_FOUND_MESSAGE);
+	}
 
-		throw new HotelException("Guest Email is Already Found");
+	@Override
+	public List<GuestDto> getAllGuestDetails() {
+		try {
+			return guestRepository.findAll().stream()
+					.map(ObjectUtil::GuestEntityToDto).toList();
+		} catch (Exception e) {
+			throw new HotelException("Failed to retrieve Guests: " + e.getMessage());
+		}
+	}
+
+	@Override
+	public GuestDto updateGuest(GuestDto dto) {
+		Optional<Guest> optional=guestRepository.findByEmail(dto.getEmail());
+		if(optional.isPresent()) {
+			Guest guest=optional.get();
+			guest=ObjectUtil.updateGuest(guest,dto);
+			Guest save=guestRepository.save(guest);
+			return ObjectUtil.GuestEntityToDto(save);
+		}
+		throw new HotelException(GUEST_EMAIL_NOTFOUND_MESSAGE);
+	}
+
+	@Override
+	public String deleteGuest(GuestDto dto) {
+	
+		Optional<Guest> optional=guestRepository.findByEmail(dto.getEmail());
+		if(optional.isPresent()) {
+			Guest guest=optional.get();
+			guestRepository.delete(guest);
+			return GUEST_DETAILS_DELETED_MESSAGE;
+		}
+		throw new HotelException(GUEST_EMAIL_NOTFOUND_MESSAGE);
 	}
 
 	@Override
@@ -67,7 +110,7 @@ public class HotelManagmentServiceImpl implements HotelManagmentService{
 			Room room1=roomRepository.save(room);
 			return room1.getRoomNumber();
 		}
-		throw new HotelException("Room number is Already present");
+		throw new HotelException(ROOMNUMBER_FOUND_MESSAGE);
 	}
 
 	@Override
@@ -78,7 +121,7 @@ public class HotelManagmentServiceImpl implements HotelManagmentService{
 			RoomDto room=ObjectUtil.RoomEntityToDto(rooms);
 			return room;
 		}
-		throw new HotelException("Room number is not Found");
+		throw new HotelException(ROOMNUMBER_NOTFOUND_MESSAGE);
 	}
 
 	@Override
@@ -90,7 +133,7 @@ public class HotelManagmentServiceImpl implements HotelManagmentService{
 			Room save=roomRepository.save(room);
 			return ObjectUtil.RoomEntityToDto(save);
 		}
-		throw new HotelException("Room number is not Found");
+		throw new HotelException(ROOMNUMBER_NOTFOUND_MESSAGE);
 	}
 
 	@Override
@@ -123,11 +166,11 @@ public class HotelManagmentServiceImpl implements HotelManagmentService{
 			guestRepository.save(guest);
 			roomRepository.saveAll(roomsList);
 			reservationRepository.save(reservation);
-			return "Reservation saved successfully!";
+			return RESERVATION_DETAILS_SAVED_MESSAGE;
 		}
 
 		else {
-			throw new HotelException("Guest Email is not Found");
+			throw new HotelException(GUEST_EMAIL_NOTFOUND_MESSAGE);
 		}
 	}
 
@@ -139,9 +182,9 @@ public class HotelManagmentServiceImpl implements HotelManagmentService{
 				Reservation reservation = resOptional.get();
 				reservation.setClosed(true);
 				Reservation save=reservationRepository.save(reservation);
-				return "updated seccefully";
+				return RESERVATION_CLOSED_MESSAGE;
 			} else {
-				return "Reservation not found";
+				return RESERVATION_NOTFOUND_MESSAGE;
 			}
 		} catch (NonUniqueResultException e) {
 			return "Multiple reservations found for the given ID";
@@ -158,10 +201,10 @@ public class HotelManagmentServiceImpl implements HotelManagmentService{
 			if(resOptional.isPresent()) {
 				Reservation reservation = resOptional.get();
 				reservation.setCancelled(true);
-				Reservation save=reservationRepository.save(reservation);
-				return "updated seccefully";
+				reservationRepository.save(reservation);
+				return RESERVATION_CANCELLED_MESSAGE;
 			} else {
-				return "Reservation not found";
+				return RESERVATION_NOTFOUND_MESSAGE;
 			}
 		} catch (NonUniqueResultException e) {
 			return "Multiple reservations found for the given ID";
@@ -179,7 +222,7 @@ public class HotelManagmentServiceImpl implements HotelManagmentService{
 			ReservationDto reservation1=ObjectUtil.ReservationEntityToDto(reservation);
 			return reservation1;
 		}
-		throw new HotelException("Reservation Id is not Found");
+		throw new HotelException(RESERVATION_NOTFOUND_MESSAGE);
 
 	}
 
@@ -292,38 +335,5 @@ public class HotelManagmentServiceImpl implements HotelManagmentService{
 		throw new AdminExistenceException("Staff Id not Found!");
 	}
 
-	@Override
-	public List<GuestDto> getAllGuestDetails() {
-		try {
-			return guestRepository.findAll().stream()
-					.map(ObjectUtil::GuestEntityToDto).toList();
-		} catch (Exception e) {
-			throw new HotelException("Failed to retrieve Guests: " + e.getMessage());
-		}
-	}
-
-	@Override
-	public GuestDto updateGuest(GuestDto dto) {
-		Optional<Guest> optional=guestRepository.findByEmail(dto.getEmail());
-		if(optional.isPresent()) {
-			Guest guest=optional.get();
-			guest=ObjectUtil.updateGuest(guest,dto);
-			Guest save=guestRepository.save(guest);
-			return ObjectUtil.GuestEntityToDto(save);
-		}
-		throw new HotelException("Guest Email is not Found");
-	}
-
-	@Override
-	public String deleteGuest(GuestDto dto) {
-	
-		Optional<Guest> optional=guestRepository.findByEmail(dto.getEmail());
-		if(optional.isPresent()) {
-			Guest guest=optional.get();
-			guestRepository.delete(guest);
-			return "Guest Deleted Succesfully!!";
-		}
-		throw new HotelException("Guest Email is not Found");
-	}
 }
 

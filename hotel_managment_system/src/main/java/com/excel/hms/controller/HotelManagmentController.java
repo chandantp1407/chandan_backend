@@ -1,6 +1,27 @@
 package com.excel.hms.controller;
 
 import java.util.List;
+import static com.excel.hms.constant.GuestConstant.GUEST_DETAILS_SAVED_MESSAGE;
+import static com.excel.hms.constant.GuestConstant.GUESTS_DETAILS_FETCHED_MESSAGE;
+import static com.excel.hms.constant.GuestConstant.GUEST_DETAILS_UPDATED_MESSAGE;
+import static com.excel.hms.constant.GuestConstant.GUEST_DETAILS_DELETED_MESSAGE;
+import static com.excel.hms.constant.RoomConstant.ROOM_DETAILS_SAVED_MESSAGE;
+import static com.excel.hms.constant.RoomConstant.ROOM_DETAILS_FETCHED_MESSAGE;
+import static com.excel.hms.constant.RoomConstant.ROOM_DETAILS_UPDATED_MESSAGE;
+import static com.excel.hms.constant.RoomConstant.ROOMS_DETAILS_FETCHED_MESSAGE;
+import static com.excel.hms.constant.ReservationConstant.RESERVATION_DETAILS_SAVED_MESSAGE;
+import static com.excel.hms.constant.ReservationConstant.RESERVATION_DETAILS_FETCHED_MESSAGE;
+import static com.excel.hms.constant.ReservationConstant.RESERVATIONS_DETAILS_FETCHED_MESSAGE;
+import static com.excel.hms.constant.ReservationConstant.RESERVATION_CLOSED_MESSAGE;
+import static com.excel.hms.constant.ReservationConstant.RESERVATION_CANCELLED_MESSAGE;
+import static com.excel.hms.constant.AdminConstant.ADMIN_REGISTER_MESSAGE;
+import static com.excel.hms.constant.AdminConstant.ADMIN_LOGIN_MESSAGE;
+import static com.excel.hms.constant.AdminConstant.ADMIN_DETAILS_FETCH_MESSAGE;
+import static com.excel.hms.constant.AdminConstant.ADMINS_DETAILS_FETCH_MESSAGE;
+import static com.excel.hms.constant.AdminConstant.PASSWORD_CHANGED_MESSAGE;
+import static com.excel.hms.constant.AdminConstant.STAFF_INFORMATION_SAVED_MESSAGE;
+import static com.excel.hms.constant.AdminConstant.STAFF_PASSWORD_UPDATED_MESSAGE;
+import static com.excel.hms.constant.AdminConstant.STAFF_DELETED_MESSAGE;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -36,34 +57,34 @@ public class HotelManagmentController {
 	public ResponseEntity<CommonResponse<String>> postGuestDetails(@RequestBody GuestDto dto) {
 		String guest = hotelManagmentService.saveGuest(dto);
 		return ResponseEntity.status(HttpStatus.CREATED).body(CommonResponse.<String>builder().data(guest)
-				.isError(false).message("Guest deatils saved succesfully").build());
+				.isError(false).message(GUEST_DETAILS_SAVED_MESSAGE).build());
 
 	}
 	@GetMapping(path = "/getAllGuests")
 	public ResponseEntity<CommonResponse<List<GuestDto>>> getAllGuestDetails() {
 		List<GuestDto> rooms = hotelManagmentService.getAllGuestDetails();
 		return ResponseEntity.status(HttpStatus.OK).body(CommonResponse.<List<GuestDto>>builder().data(rooms)
-				.isError(false).message("guests deatils getting succesfully").build());
+				.isError(false).message(GUESTS_DETAILS_FETCHED_MESSAGE).build());
 
 	}
 	@PutMapping(path = "/updateguest")
 	public ResponseEntity<CommonResponse<GuestDto>> updateGuestDetails(@RequestBody GuestDto dto) {
 		GuestDto update = hotelManagmentService.updateGuest(dto);
-		return ResponseEntity.status(HttpStatus.CREATED).body(CommonResponse.<GuestDto>builder().data(update)
-				.isError(false).message("Guest deatils updated succesfully").build());
+		return ResponseEntity.status(HttpStatus.ACCEPTED).body(CommonResponse.<GuestDto>builder().data(update)
+				.isError(false).message(GUEST_DETAILS_UPDATED_MESSAGE).build());
 	}
 	@DeleteMapping("/deleteguest")
 	public ResponseEntity<CommonResponse<String>> deleteStaff(@RequestBody GuestDto dto){
 		hotelManagmentService.deleteGuest(dto);
 		return ResponseEntity.status(HttpStatus.OK).body(CommonResponse.<String>builder()
-				.isError(false).message("Guest Deleted Successfully!").build());
+				.isError(false).message(GUEST_DETAILS_DELETED_MESSAGE).build());
 	}
 
 	@PostMapping(path = "/rooms")
 	public ResponseEntity<CommonResponse<String>> postRoomsDetails(@RequestBody RoomDto dto) {
 		String room = hotelManagmentService.saveRooms(dto);
 		return ResponseEntity.status(HttpStatus.CREATED).body(CommonResponse.<String>builder().data(room).isError(false)
-				.message("Room deatils saved succesfully").build());
+				.message(ROOM_DETAILS_SAVED_MESSAGE).build());
 
 	}
 
@@ -71,21 +92,21 @@ public class HotelManagmentController {
 	public ResponseEntity<CommonResponse<RoomDto>> getRoomsDetails(@RequestBody RoomDto dto) {
 		RoomDto room = hotelManagmentService.getRooms(dto);
 		return ResponseEntity.status(HttpStatus.OK).body(CommonResponse.<RoomDto>builder().data(room)
-				.isError(false).message("Room deatils getting succesfully").build());
+				.isError(false).message(ROOM_DETAILS_FETCHED_MESSAGE).build());
 	}
 
 	@PutMapping(path = "/updateroom")
 	public ResponseEntity<CommonResponse<RoomDto>> updateRoomsDetails(@RequestBody RoomDto dto) {
 		RoomDto update = hotelManagmentService.updateRooms(dto);
-		return ResponseEntity.status(HttpStatus.CREATED).body(CommonResponse.<RoomDto>builder().data(update)
-				.isError(false).message("Room deatils updated succesfully").build());
+		return ResponseEntity.status(HttpStatus.ACCEPTED).body(CommonResponse.<RoomDto>builder().data(update)
+				.isError(false).message(ROOM_DETAILS_UPDATED_MESSAGE).build());
 	}
 
 	@GetMapping(path = "/getAllrooms")
 	public ResponseEntity<CommonResponse<List<RoomDto>>> getAllRoomsDetails() {
 		List<RoomDto> rooms = hotelManagmentService.getAllRooms();
 		return ResponseEntity.status(HttpStatus.OK).body(CommonResponse.<List<RoomDto>>builder().data(rooms)
-				.isError(false).message("Rooms deatils getting succesfully").build());
+				.isError(false).message(ROOMS_DETAILS_FETCHED_MESSAGE).build());
 
 	}
 
@@ -93,75 +114,83 @@ public class HotelManagmentController {
 	public ResponseEntity<CommonResponse<String>> postRervationDetails(@RequestBody ReservationDtoList dto) {
 		String room = hotelManagmentService.saveReservation(dto);
 		return ResponseEntity.status(HttpStatus.CREATED).body(CommonResponse.<String>builder().data(room).isError(false)
-				.message("Reservation  deatils saved succesfully").build());
+				.message(RESERVATION_DETAILS_SAVED_MESSAGE).build());
 	}
 
-	@PutMapping(path = "/updatereservationsbyadmin")
+	@PutMapping(path = "/updatereservationsforclosed")
 	public ResponseEntity<CommonResponse<String>> updateReservationsDetails(@RequestBody ReservationDto dto) {
 		String update = hotelManagmentService.updateReservationByAdmin(dto);
-		return ResponseEntity.status(HttpStatus.CREATED).body(CommonResponse.<String>builder().data(update)
-				.isError(false).message("Reservation deatils updated succesfully").build());
+		return ResponseEntity.status(HttpStatus.ACCEPTED).body(CommonResponse.<String>builder().data(update)
+				.isError(false).message(RESERVATION_CLOSED_MESSAGE).build());
 	}
 
-	@PutMapping(path = "/updatereservationsbyguest")
+	@PutMapping(path = "/updatereservationsforcancellation")
 	public ResponseEntity<CommonResponse<String>> updateReservationsByGuestDetails(@RequestBody ReservationDto dto) {
 		String update = hotelManagmentService.updateReservationByGuest(dto);
-		return ResponseEntity.status(HttpStatus.CREATED).body(CommonResponse.<String>builder().data(update)
-				.isError(false).message("Reservation deatils updated succesfully").build());
+		return ResponseEntity.status(HttpStatus.ACCEPTED).body(CommonResponse.<String>builder().data(update)
+				.isError(false).message(RESERVATION_CANCELLED_MESSAGE).build());
 	}
 
 	@GetMapping(path = "/getreservation")
 	public ResponseEntity<CommonResponse<ReservationDto>> getReservationDetails(@RequestBody ReservationDto dto) {
 		ReservationDto room = hotelManagmentService.getReservation(dto);
-		return ResponseEntity.status(HttpStatus.CREATED).body(CommonResponse.<ReservationDto>builder().data(room)
-				.isError(false).message("Reservation deatils getting succesfully").build());
+		return ResponseEntity.status(HttpStatus.OK).body(CommonResponse.<ReservationDto>builder().data(room)
+				.isError(false).message(RESERVATION_DETAILS_FETCHED_MESSAGE).build());
 	}
 
 	@GetMapping(path = "/getallreservations")
 	public ResponseEntity<CommonResponse<List<ReservationDto>>> getAllReservationsDetails() {
 		List<ReservationDto> rooms = hotelManagmentService.getAllReservations();
-		return ResponseEntity.status(HttpStatus.CREATED).body(CommonResponse.<List<ReservationDto>>builder().data(rooms)
-				.isError(false).message("Reservations deatils getting succesfully").build());
+		return ResponseEntity.status(HttpStatus.OK).body(CommonResponse.<List<ReservationDto>>builder().data(rooms)
+				.isError(false).message(RESERVATIONS_DETAILS_FETCHED_MESSAGE).build());
 	}
 	@PostMapping("/register")
 	public ResponseEntity<CommonResponse<Integer>>postAdminInfo(@RequestBody AdminDTO dto){
 		Integer adminId = hotelManagmentService.addAdminInfo(dto);
-		return ResponseEntity.status(HttpStatus.CREATED).body(CommonResponse.<Integer>builder().data(adminId).isError(false).message("Admin Registered Successfully").build());	
+		return ResponseEntity.status(HttpStatus.CREATED).body(CommonResponse.<Integer>builder().data(adminId)
+				.isError(false).message(ADMIN_REGISTER_MESSAGE).build());	
 	}
 
 	@PostMapping("/login")
 	public ResponseEntity<CommonResponse<String>>postAdminLogin(@RequestBody AdminDTO dto){
 		String adminName = hotelManagmentService.adminLogin(dto);
-		return ResponseEntity.status(HttpStatus.ACCEPTED).body(CommonResponse.<String>builder().data(adminName).isError(false).message("Admin Login Succesfully").build());	
+		return ResponseEntity.status(HttpStatus.ACCEPTED).body(CommonResponse.<String>builder().data(adminName)
+				.isError(false).message(ADMIN_LOGIN_MESSAGE).build());	
 	}
 	@PutMapping("/update")
 	public ResponseEntity<CommonResponse<AdminDTO>> updateAdminPassword(@RequestBody AdminDTO dto){
 		AdminDTO adminPass = hotelManagmentService.updateAdminPassword(dto);
-		return ResponseEntity.status(HttpStatus.ACCEPTED).body(CommonResponse.<AdminDTO>builder().data(adminPass).isError(false).message("Password updated successfully").build());
+		return ResponseEntity.status(HttpStatus.ACCEPTED).body(CommonResponse.<AdminDTO>builder().data(adminPass)
+				.isError(false).message(PASSWORD_CHANGED_MESSAGE).build());
 	}
 	@GetMapping("/getAll")
 	public ResponseEntity<CommonResponse<List<AdminDTO>>>fetchAllAdminInfo(@RequestBody AdminDTO admin){
 		List<AdminDTO> dto = hotelManagmentService.getAdmin(admin);
-		return ResponseEntity.status(HttpStatus.OK).body(CommonResponse.<List<AdminDTO>>builder().data(dto).isError(false).message("Successfully Fetch All Admins").build());
+		return ResponseEntity.status(HttpStatus.OK).body(CommonResponse.<List<AdminDTO>>builder().data(dto)
+				.isError(false).message(ADMINS_DETAILS_FETCH_MESSAGE).build());
 	}
 	@GetMapping("/getById")
 	public ResponseEntity<CommonResponse<AdminDTO>>fetchById(@RequestBody AdminDTO dto){
 		AdminDTO admin = hotelManagmentService.getAdminById(dto);
-		return ResponseEntity.status(HttpStatus.OK).body(CommonResponse.<AdminDTO>builder().data(admin).isError(false).message("Fetch Admin By id Successfully!").build());
+		return ResponseEntity.status(HttpStatus.OK).body(CommonResponse.<AdminDTO>builder().data(admin)
+				.isError(false).message(ADMIN_DETAILS_FETCH_MESSAGE).build());
 	}
 	@PostMapping("/sinfo")
 	public ResponseEntity<CommonResponse<String>> postStaffInfo(@RequestBody StaffDTO dto){
 		String staff = hotelManagmentService.addStaffInfo(dto);
-		return ResponseEntity.status(HttpStatus.CREATED).body(CommonResponse.<String>builder().data(staff).isError(false).message("Staff Info Added Successfully!").build());
+		return ResponseEntity.status(HttpStatus.CREATED).body(CommonResponse.<String>builder().data(staff)
+				.isError(false).message(STAFF_INFORMATION_SAVED_MESSAGE).build());
 	}
 	@PutMapping("/updateStaff")
 	public ResponseEntity<CommonResponse<StaffDTO>> updateStaffPassword(@RequestBody StaffDTO dto){
 		StaffDTO staffPass = hotelManagmentService.updateStaffPassword(dto);
-		return ResponseEntity.status(HttpStatus.ACCEPTED).body(CommonResponse.<StaffDTO>builder().data(staffPass).isError(false).message("Staff Password Successfully!").build());
+		return ResponseEntity.status(HttpStatus.ACCEPTED).body(CommonResponse.<StaffDTO>builder()
+				.data(staffPass).isError(false).message(STAFF_PASSWORD_UPDATED_MESSAGE).build());
 	}
 	@DeleteMapping("/staffDelete")
 	public ResponseEntity<CommonResponse<String>> deleteStaff(@RequestBody StaffDTO dto){
 		hotelManagmentService.deleteStaff(dto);
-		return ResponseEntity.status(HttpStatus.OK).body(CommonResponse.<String>builder().isError(false).message("Staff Deleted Successfully!").build());
+		return ResponseEntity.status(HttpStatus.OK).body(CommonResponse.<String>builder()
+				.isError(false).message(STAFF_DELETED_MESSAGE).build());
 	}
 }

@@ -8,5 +8,5 @@ import com.excel.hms.entity.Reservation;
 
 public interface ReservationRepository extends JpaRepository<Reservation, Integer>{
 
-	Optional<Reservation> findByReservationId(String reservationId);
+	Optional<Reservation> findByReservationId(Integer reservationId);
 }
