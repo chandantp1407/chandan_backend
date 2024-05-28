@@ -291,5 +291,39 @@ public class HotelManagmentServiceImpl implements HotelManagmentService{
 		}
 		throw new AdminExistenceException("Staff Id not Found!");
 	}
+
+	@Override
+	public List<GuestDto> getAllGuestDetails() {
+		try {
+			return guestRepository.findAll().stream()
+					.map(ObjectUtil::GuestEntityToDto).toList();
+		} catch (Exception e) {
+			throw new HotelException("Failed to retrieve Guests: " + e.getMessage());
+		}
+	}
+
+	@Override
+	public GuestDto updateGuest(GuestDto dto) {
+		Optional<Guest> optional=guestRepository.findByEmail(dto.getEmail());
+		if(optional.isPresent()) {
+			Guest guest=optional.get();
+			guest=ObjectUtil.updateGuest(guest,dto);
+			Guest save=guestRepository.save(guest);
+			return ObjectUtil.GuestEntityToDto(save);
+		}
+		throw new HotelException("Guest Email is not Found");
+	}
+
+	@Override
+	public String deleteGuest(GuestDto dto) {
+	
+		Optional<Guest> optional=guestRepository.findByEmail(dto.getEmail());
+		if(optional.isPresent()) {
+			Guest guest=optional.get();
+			guestRepository.delete(guest);
+			return "Guest Deleted Succesfully!!";
+		}
+		throw new HotelException("Guest Email is not Found");
+	}
 }
 

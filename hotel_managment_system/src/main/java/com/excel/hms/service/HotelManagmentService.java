@@ -47,4 +47,10 @@ public interface HotelManagmentService {
 
 	public String deleteStaff(StaffDTO dto);
 
+	public List<GuestDto> getAllGuestDetails();
+
+	public GuestDto updateGuest(GuestDto dto);
+
+	public String deleteGuest(GuestDto dto);
+
 }

@@ -39,6 +39,25 @@ public class HotelManagmentController {
 				.isError(false).message("Guest deatils saved succesfully").build());
 
 	}
+	@GetMapping(path = "/getAllGuests")
+	public ResponseEntity<CommonResponse<List<GuestDto>>> getAllGuestDetails() {
+		List<GuestDto> rooms = hotelManagmentService.getAllGuestDetails();
+		return ResponseEntity.status(HttpStatus.OK).body(CommonResponse.<List<GuestDto>>builder().data(rooms)
+				.isError(false).message("guests deatils getting succesfully").build());
+
+	}
+	@PutMapping(path = "/updateguest")
+	public ResponseEntity<CommonResponse<GuestDto>> updateGuestDetails(@RequestBody GuestDto dto) {
+		GuestDto update = hotelManagmentService.updateGuest(dto);
+		return ResponseEntity.status(HttpStatus.CREATED).body(CommonResponse.<GuestDto>builder().data(update)
+				.isError(false).message("Guest deatils updated succesfully").build());
+	}
+	@DeleteMapping("/deleteguest")
+	public ResponseEntity<CommonResponse<String>> deleteStaff(@RequestBody GuestDto dto){
+		hotelManagmentService.deleteGuest(dto);
+		return ResponseEntity.status(HttpStatus.OK).body(CommonResponse.<String>builder()
+				.isError(false).message("Guest Deleted Successfully!").build());
+	}
 
 	@PostMapping(path = "/rooms")
 	public ResponseEntity<CommonResponse<String>> postRoomsDetails(@RequestBody RoomDto dto) {
@@ -51,7 +70,7 @@ public class HotelManagmentController {
 	@GetMapping(path = "/getrooms")
 	public ResponseEntity<CommonResponse<RoomDto>> getRoomsDetails(@RequestBody RoomDto dto) {
 		RoomDto room = hotelManagmentService.getRooms(dto);
-		return ResponseEntity.status(HttpStatus.CREATED).body(CommonResponse.<RoomDto>builder().data(room)
+		return ResponseEntity.status(HttpStatus.OK).body(CommonResponse.<RoomDto>builder().data(room)
 				.isError(false).message("Room deatils getting succesfully").build());
 	}
 
@@ -65,7 +84,7 @@ public class HotelManagmentController {
 	@GetMapping(path = "/getAllrooms")
 	public ResponseEntity<CommonResponse<List<RoomDto>>> getAllRoomsDetails() {
 		List<RoomDto> rooms = hotelManagmentService.getAllRooms();
-		return ResponseEntity.status(HttpStatus.CREATED).body(CommonResponse.<List<RoomDto>>builder().data(rooms)
+		return ResponseEntity.status(HttpStatus.OK).body(CommonResponse.<List<RoomDto>>builder().data(rooms)
 				.isError(false).message("Rooms deatils getting succesfully").build());
 
 	}
