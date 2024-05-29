@@ -148,7 +148,7 @@ public class HotelManagmentServiceImpl implements HotelManagmentService{
 
 	@Override
 	public String saveReservation(ReservationDtoList dto) {
-		Optional<Guest> optional=guestRepository.findByEmail(dto.getGuestDto().getEmail());
+		Optional<Guest> optional=guestRepository.findByEmail(dto.getEmail());
 		if(optional.isPresent()) {
 			Guest guest=optional.get();
 			Reservation reservation=ObjectUtil.dtoToReservationEntity(dto);

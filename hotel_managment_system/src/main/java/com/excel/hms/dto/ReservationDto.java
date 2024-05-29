@@ -17,4 +17,5 @@ public class ReservationDto {
 	private double totalAmount;
 	private boolean isCancelled;
 	private boolean isClosed;
+	private String email;
 }

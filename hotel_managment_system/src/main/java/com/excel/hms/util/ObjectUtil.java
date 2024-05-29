@@ -53,7 +53,8 @@ public class ObjectUtil {
 
 	public static ReservationDto ReservationEntityToDto(Reservation dto) {
 
-		return ReservationDto.builder().reservationId(dto.getReservationId()).checkInDate(dto.getCheckInDate()).checkOutDate(dto.getCheckOutDate()).totalAmount(dto.getTotalAmount())
+		return ReservationDto.builder().reservationId(dto.getReservationId()).checkInDate(dto.getCheckInDate()).checkOutDate(dto.getCheckOutDate())
+				.totalAmount(dto.getTotalAmount()).email(dto.getGuest().getEmail())
 				.isCancelled(dto.isCancelled()).isClosed(dto.isClosed()).build();
 	}
 	public static Guest updateGuest(Guest guest, GuestDto dto) {
