@@ -114,8 +114,8 @@ public class HotelManagmentServiceImpl implements HotelManagmentService{
 	}
 
 	@Override
-	public RoomDto getRooms(RoomDto dto) {
-		Optional<Room> optional	=roomRepository.findByRoomNumber(dto.getRoomNumber());
+	public RoomDto getRooms(String roomNumber) {
+		Optional<Room> optional	=roomRepository.findByRoomNumber(roomNumber);
 		if(optional.isPresent()) {
 			Room rooms=optional.get();
 			RoomDto room=ObjectUtil.RoomEntityToDto(rooms);
@@ -215,8 +215,8 @@ public class HotelManagmentServiceImpl implements HotelManagmentService{
 	}
 
 	@Override
-	public ReservationDto getReservation(ReservationDto dto) {
-		Optional<Reservation> optional	=reservationRepository.findByReservationId(dto.getReservationId());
+	public ReservationDto getReservation(Integer reservationId) {
+		Optional<Reservation> optional	=reservationRepository.findByReservationId(reservationId);
 		if(optional.isPresent()) {
 			Reservation reservation=optional.get();
 			ReservationDto reservation1=ObjectUtil.ReservationEntityToDto(reservation);

@@ -26,12 +26,12 @@ public class ObjectUtil {
 
 
 	public static Room dtoToRoomEntity(RoomDto dto) {
-		return Room.builder().roomNumber(dto.getRoomNumber()).type(dto.getType())
+		return Room.builder().roomId(dto.getRoomId()).roomNumber(dto.getRoomNumber()).type(dto.getType())
 				.rate(dto.getRate()).description(dto.getDescription()).build();
 	}
 
 	public static RoomDto RoomEntityToDto(Room room) {
-		return RoomDto.builder().roomNumber(room.getRoomNumber()).type(room.getType())
+		return RoomDto.builder().roomId(room.getRoomId()).roomNumber(room.getRoomNumber()).type(room.getType())
 				.rate(room.getRate()).description(room.getDescription()).isAvailable(room.isAvailable()).build();
 	}
 

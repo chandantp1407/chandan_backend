@@ -32,6 +32,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.excel.hms.dto.AdminDTO;
@@ -88,11 +89,10 @@ public class HotelManagmentController {
 
 	}
 
-	@GetMapping(path = "/getrooms")
-	@CrossOrigin("*")
-	public ResponseEntity<CommonResponse<RoomDto>> getRoomsDetails(@RequestBody RoomDto dto) {
-		System.out.println("Room number is "+dto.getRoomNumber());
-		RoomDto room = hotelManagmentService.getRooms(dto);
+	@GetMapping(path = "/getroom")
+	public ResponseEntity<CommonResponse<RoomDto>> getRoomsDetails(@RequestParam(name = "roomNumber") String roomNumber) {
+	
+		RoomDto room = hotelManagmentService.getRooms(roomNumber);
 		return ResponseEntity.status(HttpStatus.OK).body(CommonResponse.<RoomDto>builder().data(room)
 				.isError(false).message(ROOM_DETAILS_FETCHED_MESSAGE).build());
 	}
@@ -134,9 +134,9 @@ public class HotelManagmentController {
 	}
 
 	@GetMapping(path = "/getreservation")
-	public ResponseEntity<CommonResponse<ReservationDto>> getReservationDetails(@RequestBody ReservationDto dto) {
-		ReservationDto room = hotelManagmentService.getReservation(dto);
-		return ResponseEntity.status(HttpStatus.OK).body(CommonResponse.<ReservationDto>builder().data(room)
+	public ResponseEntity<CommonResponse<ReservationDto>> getReservationDetails(@RequestParam(name = "reservationId") Integer reservationId) {
+		ReservationDto reservation = hotelManagmentService.getReservation(reservationId);
+		return ResponseEntity.status(HttpStatus.OK).body(CommonResponse.<ReservationDto>builder().data(reservation)
 				.isError(false).message(RESERVATION_DETAILS_FETCHED_MESSAGE).build());
 	}
 

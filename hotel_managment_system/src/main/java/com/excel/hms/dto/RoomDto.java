@@ -8,6 +8,7 @@ import lombok.Setter;
 @Getter @Setter @NoArgsConstructor @AllArgsConstructor
 @Builder
 public class RoomDto {
+	private Integer roomId;
 	private String roomNumber;
 	private String type;
 	private Double rate;

@@ -15,7 +15,7 @@ public interface HotelManagmentService {
 
 	public String saveRooms(RoomDto dto);
 
-	public RoomDto getRooms(RoomDto dto);
+	public RoomDto getRooms(String roomNumber);
 
 	public RoomDto updateRooms(RoomDto dto);
 
@@ -27,7 +27,7 @@ public interface HotelManagmentService {
 
 	public String updateReservationByGuest(ReservationDto dto);
 
-	public ReservationDto getReservation(ReservationDto dto);
+	public ReservationDto getReservation(Integer reservationId);
 
 	public List<ReservationDto> getAllReservations();
 
