@@ -275,7 +275,7 @@ public class HotelManagmentServiceImpl implements HotelManagmentService{
 	}
 
 	@Override
-	public List<AdminDTO> getAdmin(AdminDTO admin) {
+	public List<AdminDTO> getAdmin() {
 		return adminRepository.findAll().stream().map(x->AdminDTO.builder().adminNo(x.getAdminNo()).adminName(x.getAdminName()).password(x.getPassword()).roleType(x.getRoleType()).build()).toList();
 	}
 

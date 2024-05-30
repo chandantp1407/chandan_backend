@@ -37,7 +37,7 @@ public interface HotelManagmentService {
 
 	public AdminDTO updateAdminPassword(AdminDTO dto);
 
-	public List<AdminDTO> getAdmin(AdminDTO admin);
+	public List<AdminDTO> getAdmin();
 
 	public AdminDTO getAdminById(AdminDTO dto);
 

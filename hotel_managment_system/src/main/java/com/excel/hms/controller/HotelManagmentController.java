@@ -89,7 +89,9 @@ public class HotelManagmentController {
 	}
 
 	@GetMapping(path = "/getrooms")
+	@CrossOrigin("*")
 	public ResponseEntity<CommonResponse<RoomDto>> getRoomsDetails(@RequestBody RoomDto dto) {
+		System.out.println("Room number is "+dto.getRoomNumber());
 		RoomDto room = hotelManagmentService.getRooms(dto);
 		return ResponseEntity.status(HttpStatus.OK).body(CommonResponse.<RoomDto>builder().data(room)
 				.isError(false).message(ROOM_DETAILS_FETCHED_MESSAGE).build());
@@ -164,8 +166,8 @@ public class HotelManagmentController {
 				.isError(false).message(PASSWORD_CHANGED_MESSAGE).build());
 	}
 	@GetMapping("/getAll")
-	public ResponseEntity<CommonResponse<List<AdminDTO>>>fetchAllAdminInfo(@RequestBody AdminDTO admin){
-		List<AdminDTO> dto = hotelManagmentService.getAdmin(admin);
+	public ResponseEntity<CommonResponse<List<AdminDTO>>>fetchAllAdminInfo(){
+		List<AdminDTO> dto = hotelManagmentService.getAdmin();
 		return ResponseEntity.status(HttpStatus.OK).body(CommonResponse.<List<AdminDTO>>builder().data(dto)
 				.isError(false).message(ADMINS_DETAILS_FETCH_MESSAGE).build());
 	}
