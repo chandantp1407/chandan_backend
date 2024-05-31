@@ -146,34 +146,80 @@ public class HotelManagmentServiceImpl implements HotelManagmentService{
 		}
 	}
 
+//	@Override
+//	public String saveReservation(ReservationDtoList dto) {
+//		Optional<Guest> optional=guestRepository.findByEmail(dto.getEmail());
+//		if(optional.isPresent()) {
+//			Guest guest=optional.get();
+//			Reservation reservation=ObjectUtil.dtoToReservationEntity(dto);
+//			guest.getReservations().add(reservation);
+//			reservation.setGuest(guest);
+//
+////			List<Integer> rooms = dto.getRooms();
+//			List<Room>	roomsList=dto.getRooms().stream().map(i->{
+//				Optional<Room> r=roomRepository.findById(i);
+//				return r.get();
+//			}).toList();
+//
+//			roomsList.stream().forEach(room -> room.getReservations().add(reservation));
+//			reservation.setRooms(roomsList);
+//			guestRepository.save(guest);
+//			roomRepository.saveAll(roomsList);
+//			reservationRepository.save(reservation);
+//			return RESERVATION_DETAILS_SAVED_MESSAGE;
+//		}
+//
+//		else {
+//			throw new HotelException(GUEST_EMAIL_NOTFOUND_MESSAGE);
+//		}
+//	}
 	@Override
 	public String saveReservation(ReservationDtoList dto) {
-		Optional<Guest> optional=guestRepository.findByEmail(dto.getEmail());
-		if(optional.isPresent()) {
-			Guest guest=optional.get();
-			Reservation reservation=ObjectUtil.dtoToReservationEntity(dto);
-			guest.getReservations().add(reservation);
-			reservation.setGuest(guest);
-
-			List<Integer> rooms = dto.getRooms();
-			List<Room>	roomsList=dto.getRooms().stream().map(i->{
-				Optional<Room> r=roomRepository.findById(i);
-				return r.get();
-			}).toList();
-
-			roomsList.stream().forEach(room -> room.getReservations().add(reservation));
-			reservation.setRooms(roomsList);
-			guestRepository.save(guest);
-			roomRepository.saveAll(roomsList);
-			reservationRepository.save(reservation);
-			return RESERVATION_DETAILS_SAVED_MESSAGE;
-		}
-
-		else {
-			throw new HotelException(GUEST_EMAIL_NOTFOUND_MESSAGE);
-		}
+	    Optional<Guest> optional = guestRepository.findByEmail(dto.getEmail());
+	    if (optional.isPresent()) {
+	        Guest guest = optional.get();
+	        
+	        // Check if the guest already has an active reservation
+	        Optional<Reservation> activeReservation = guest.getReservations().stream()
+	            .filter(reservation -> !reservation.isCancelled() && !reservation.isClosed())
+	            .findFirst();
+	        
+	        if (activeReservation.isPresent()) {
+	            // If an active reservation exists, throw an exception or handle it accordingly
+	            throw new HotelException("Guest already has an active reservation.");
+	        } else {
+	            // Create a new reservation
+	            Reservation reservation = ObjectUtil.dtoToReservationEntity(dto);
+	            reservation.setGuest(guest);
+	            List<Room> roomsList = dto.getRooms().stream().map(i -> {
+	                Optional<Room> r = roomRepository.findById(i);
+	                return r.orElseThrow(() -> new HotelException("Room with ID " + i + " not found"));
+	            }).toList();
+	            reservation.setRooms(roomsList);
+	            roomsList.forEach(room -> room.getReservations().add(reservation));
+	            guest.getReservations().add(reservation);
+	            
+	            // Save the entities
+	            guestRepository.save(guest);
+	            roomRepository.saveAll(roomsList);
+	            return RESERVATION_DETAILS_SAVED_MESSAGE;
+	        }
+	    } else {
+	        // If guest not found, throw an exception or handle it accordingly
+	        throw new HotelException(GUEST_EMAIL_NOTFOUND_MESSAGE);
+	    }
 	}
 
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	@Override
 	public String updateReservationByAdmin(ReservationDto dto) {
 		try {

@@ -16,9 +16,7 @@ public class ReservationDtoList {
 	private LocalDate checkInDate;
 	private LocalDate checkOutDate;
 	private double totalAmount;
-
 	private String email;
-
 	private String roomNumber;
 	private List<Integer> rooms;
 }
