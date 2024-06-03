@@ -37,7 +37,7 @@ public class Reservation {
 	@ManyToOne(fetch = FetchType.LAZY,cascade =CascadeType.ALL)
 	private Guest guest;
 
-	@ManyToMany(fetch =FetchType.EAGER,cascade = CascadeType.ALL)
+	@ManyToMany(fetch =FetchType.EAGER,cascade = CascadeType.DETACH.MERGE.PERSIST.REFRESH)
 	private List<Room> rooms;
 
 }

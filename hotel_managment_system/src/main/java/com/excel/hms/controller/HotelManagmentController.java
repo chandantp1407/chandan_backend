@@ -48,7 +48,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 @RestController
 @RequestMapping(path = "/api/v1/hotelmanagment")
-@CrossOrigin
+@CrossOrigin1
 public class HotelManagmentController {
 
 	@Autowired

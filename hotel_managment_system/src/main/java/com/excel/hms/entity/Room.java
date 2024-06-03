@@ -37,6 +37,6 @@ public class Room {
 	@Column(name = "is_available")
 	private boolean isAvailable;
 	
-	@ManyToMany(fetch =FetchType.EAGER,cascade = CascadeType.ALL,mappedBy = "rooms")
+	@ManyToMany(fetch =FetchType.EAGER,cascade = CascadeType.DETACH.MERGE.PERSIST.REFRESH,mappedBy = "rooms")
 	private List<Reservation> reservations;
 }
