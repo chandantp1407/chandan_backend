@@ -3,10 +3,12 @@ package com.excel.hms.util;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.excel.hms.dto.FeedbackDto;
 import com.excel.hms.dto.GuestDto;
 import com.excel.hms.dto.ReservationDto;
 import com.excel.hms.dto.ReservationDtoList;
 import com.excel.hms.dto.RoomDto;
+import com.excel.hms.entity.Feedback;
 import com.excel.hms.entity.Guest;
 import com.excel.hms.entity.Reservation;
 import com.excel.hms.entity.Room;
@@ -26,12 +28,12 @@ public class ObjectUtil {
 
 
 	public static Room dtoToRoomEntity(RoomDto dto) {
-		return Room.builder().roomId(dto.getRoomId()).roomNumber(dto.getRoomNumber()).type(dto.getType())
+		return Room.builder().roomNumber(dto.getRoomNumber()).type(dto.getType())
 				.rate(dto.getRate()).description(dto.getDescription()).build();
 	}
 
 	public static RoomDto RoomEntityToDto(Room room) {
-		return RoomDto.builder().roomId(room.getRoomId()).roomNumber(room.getRoomNumber()).type(room.getType())
+		return RoomDto.builder().roomNumber(room.getRoomNumber()).type(room.getType())
 				.rate(room.getRate()).description(room.getDescription()).isAvailable(room.isAvailable()).build();
 	}
 
@@ -53,9 +55,8 @@ public class ObjectUtil {
 
 	public static ReservationDto ReservationEntityToDto(Reservation dto) {
 
-		return ReservationDto.builder().reservationId(dto.getReservationId()).checkInDate(dto.getCheckInDate()).checkOutDate(dto.getCheckOutDate())
-				.totalAmount(dto.getTotalAmount()).email(dto.getGuest().getEmail())
-				.isCancelled(dto.isCancelled()).isClosed(dto.isClosed()).build();
+		return ReservationDto.builder().reservationId(dto.getReservationId()).checkInDate(dto.getCheckInDate()).checkOutDate(dto.getCheckOutDate()).totalAmount(dto.getTotalAmount())
+				.isCancelled(dto.isCancelled()).email(dto.getGuest().getEmail()).isClosed(dto.isClosed()).build();
 	}
 	public static Guest updateGuest(Guest guest, GuestDto dto) {
 		guest.setFirstName(dto.getFirstName());
@@ -67,6 +68,9 @@ public class ObjectUtil {
 		guest.setState(dto.getState());
 		guest.setZipCode(dto.getZipCode());
 		return guest;
+	}
+	public static Feedback dtoToContactEntity(FeedbackDto dto) {
+		return Feedback.builder().feedbackId(dto.getFeedbackId()).name(dto.getName()).email(dto.getEmail()).subject(dto.getSubject()).message(dto.getMessage()).build();
 	}
 
 }

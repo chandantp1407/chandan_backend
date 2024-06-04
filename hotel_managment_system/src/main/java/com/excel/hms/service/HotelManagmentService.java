@@ -3,11 +3,13 @@ package com.excel.hms.service;
 import java.util.List;
 
 import com.excel.hms.dto.AdminDTO;
+import com.excel.hms.dto.FeedbackDto;
 import com.excel.hms.dto.GuestDto;
 import com.excel.hms.dto.ReservationDto;
 import com.excel.hms.dto.ReservationDtoList;
 import com.excel.hms.dto.RoomDto;
 import com.excel.hms.dto.StaffDTO;
+import com.excel.hms.dto.SubscribeDto;
 
 public interface HotelManagmentService {
 
@@ -52,5 +54,11 @@ public interface HotelManagmentService {
 	public GuestDto updateGuest(GuestDto dto);
 
 	public String deleteGuest(GuestDto dto);
+
+	public String addMessage(FeedbackDto dto);
+
+	public List<FeedbackDto> getAllData();
+
+	public String addSubscribe(SubscribeDto dto);
 
 }

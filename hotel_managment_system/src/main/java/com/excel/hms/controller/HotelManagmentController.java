@@ -22,6 +22,8 @@ import static com.excel.hms.constant.AdminConstant.PASSWORD_CHANGED_MESSAGE;
 import static com.excel.hms.constant.AdminConstant.STAFF_INFORMATION_SAVED_MESSAGE;
 import static com.excel.hms.constant.AdminConstant.STAFF_PASSWORD_UPDATED_MESSAGE;
 import static com.excel.hms.constant.AdminConstant.STAFF_DELETED_MESSAGE;
+import static com.excel.hms.constant.GuestConstant.GUEST_MESSAGE_SAVED_SUCCESS;
+import static com.excel.hms.constant.GuestConstant.SUBSCRIPTION_SUCCESSFULL;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -36,11 +38,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.excel.hms.dto.AdminDTO;
+import com.excel.hms.dto.FeedbackDto;
 import com.excel.hms.dto.GuestDto;
 import com.excel.hms.dto.ReservationDto;
 import com.excel.hms.dto.ReservationDtoList;
 import com.excel.hms.dto.RoomDto;
 import com.excel.hms.dto.StaffDTO;
+import com.excel.hms.dto.SubscribeDto;
 import com.excel.hms.response.CommonResponse;
 import com.excel.hms.service.HotelManagmentService;
 import lombok.RequiredArgsConstructor;
@@ -48,7 +52,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 @RestController
 @RequestMapping(path = "/api/v1/hotelmanagment")
-@CrossOrigin1
+@CrossOrigin
 public class HotelManagmentController {
 
 	@Autowired
@@ -132,20 +136,19 @@ public class HotelManagmentController {
 		return ResponseEntity.status(HttpStatus.ACCEPTED).body(CommonResponse.<String>builder().data(update)
 				.isError(false).message(RESERVATION_CANCELLED_MESSAGE).build());
 	}
-
 	@GetMapping(path = "/getreservation")
 	public ResponseEntity<CommonResponse<ReservationDto>> getReservationDetails(@RequestParam(name = "reservationId") Integer reservationId) {
 		ReservationDto reservation = hotelManagmentService.getReservation(reservationId);
 		return ResponseEntity.status(HttpStatus.OK).body(CommonResponse.<ReservationDto>builder().data(reservation)
 				.isError(false).message(RESERVATION_DETAILS_FETCHED_MESSAGE).build());
 	}
-
 	@GetMapping(path = "/getallreservations")
 	public ResponseEntity<CommonResponse<List<ReservationDto>>> getAllReservationsDetails() {
 		List<ReservationDto> rooms = hotelManagmentService.getAllReservations();
 		return ResponseEntity.status(HttpStatus.OK).body(CommonResponse.<List<ReservationDto>>builder().data(rooms)
 				.isError(false).message(RESERVATIONS_DETAILS_FETCHED_MESSAGE).build());
 	}
+	
 	@PostMapping("/register")
 	public ResponseEntity<CommonResponse<Integer>>postAdminInfo(@RequestBody AdminDTO dto){
 		Integer adminId = hotelManagmentService.addAdminInfo(dto);
@@ -194,5 +197,24 @@ public class HotelManagmentController {
 		hotelManagmentService.deleteStaff(dto);
 		return ResponseEntity.status(HttpStatus.OK).body(CommonResponse.<String>builder()
 				.isError(false).message(STAFF_DELETED_MESSAGE).build());
+	}
+	@PostMapping("/message")
+	public ResponseEntity<CommonResponse<String>> message(@RequestBody FeedbackDto dto){
+		String contact = hotelManagmentService.addMessage(dto);
+		return ResponseEntity.status(HttpStatus.CREATED).body(CommonResponse.<String>builder().data(contact)
+				.isError(false).message(GUEST_MESSAGE_SAVED_SUCCESS).build());
+	}
+	
+	@GetMapping(path = "/getAllData")
+	public ResponseEntity<CommonResponse<List<FeedbackDto>>> getAll(){
+		List<FeedbackDto> contact = hotelManagmentService.getAllData();
+		return ResponseEntity.status(HttpStatus.ACCEPTED).body(CommonResponse.<List<FeedbackDto>>builder().data(contact)
+				.isError(false).message("Fetch all the data Successfuly").build());
+	}
+	@PostMapping(path = "/subscribe")
+	public ResponseEntity<CommonResponse<String>> subscribe(@RequestBody SubscribeDto dto){
+		String subscribe = hotelManagmentService.addSubscribe(dto);
+		return ResponseEntity.status(HttpStatus.CREATED).body(CommonResponse.<String>builder().data(subscribe)
+				.isError(false).message(SUBSCRIPTION_SUCCESSFULL).build());
 	}
 }

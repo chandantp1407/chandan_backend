@@ -27,6 +27,7 @@ import lombok.Setter;
 public class Reservation {
 	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer reservationId;
+	
 	private LocalDate checkInDate;
 	private LocalDate checkOutDate;
 	private double totalAmount;

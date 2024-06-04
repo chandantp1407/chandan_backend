@@ -10,30 +10,38 @@ import static com.excel.hms.constant.ReservationConstant.RESERVATION_NOTFOUND_ME
 import static com.excel.hms.constant.ReservationConstant.RESERVATION_CLOSED_MESSAGE;
 import static com.excel.hms.constant.ReservationConstant.RESERVATION_CANCELLED_MESSAGE;
 import static com.excel.hms.constant.ReservationConstant.RESERVATION_DETAILS_SAVED_MESSAGE;
+import static com.excel.hms.constant.GuestConstant.GUEST_EMAILID_NOT_FOUND;
+import static com.excel.hms.constant.GuestConstant.GUEST_MESSAGE_SAVED_SUCCESS;
+import static com.excel.hms.constant.GuestConstant.DUPLICATE_SUBSCRIPTION_MESSAGE;
+import static com.excel.hms.constant.GuestConstant.SUBSCRIPTION_SUCCESSFULL;
 import java.util.Optional;
-import java.util.stream.Collectors;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.excel.hms.dto.AdminDTO;
+import com.excel.hms.dto.FeedbackDto;
 import com.excel.hms.dto.GuestDto;
 import com.excel.hms.dto.ReservationDto;
 import com.excel.hms.dto.ReservationDtoList;
 import com.excel.hms.dto.RoomDto;
 import com.excel.hms.dto.StaffDTO;
+import com.excel.hms.dto.SubscribeDto;
 import com.excel.hms.entity.Admin;
+import com.excel.hms.entity.Feedback;
 import com.excel.hms.entity.Guest;
 import com.excel.hms.entity.Reservation;
 import com.excel.hms.entity.Room;
 import com.excel.hms.entity.Staff;
+import com.excel.hms.entity.Subscribe;
 import com.excel.hms.exception.AdminExistenceException;
 import com.excel.hms.exception.HotelException;
 import com.excel.hms.repository.AdminRepository;
+import com.excel.hms.repository.FeedbackRepository;
 import com.excel.hms.repository.GuestRepository;
 import com.excel.hms.repository.ReservationRepository;
 import com.excel.hms.repository.RoomRepository;
 import com.excel.hms.repository.StaffRepository;
+import com.excel.hms.repository.SubscribeRepository;
 import com.excel.hms.util.AdminUtil;
 import com.excel.hms.util.ObjectUtil;
 import com.excel.hms.util.StaffUtil;
@@ -42,6 +50,8 @@ import jakarta.persistence.NonUniqueResultException;
 
 @Service
 public class HotelManagmentServiceImpl implements HotelManagmentService{
+
+	
 
 	@Autowired
 	private GuestRepository guestRepository;
@@ -57,8 +67,13 @@ public class HotelManagmentServiceImpl implements HotelManagmentService{
 
 	@Autowired
 	private StaffRepository staffRepository;
-
-
+	
+	@Autowired
+	private FeedbackRepository feedbackRepository;
+	
+	@Autowired
+	private SubscribeRepository subscribeRepository;
+	
 	@Override
 	public String saveGuest(GuestDto dto) {
 		if(!guestRepository.findByEmail(dto.getEmail()).isPresent()) {
@@ -94,7 +109,7 @@ public class HotelManagmentServiceImpl implements HotelManagmentService{
 
 	@Override
 	public String deleteGuest(GuestDto dto) {
-
+	
 		Optional<Guest> optional=guestRepository.findByEmail(dto.getEmail());
 		if(optional.isPresent()) {
 			Guest guest=optional.get();
@@ -104,36 +119,6 @@ public class HotelManagmentServiceImpl implements HotelManagmentService{
 		throw new HotelException(GUEST_EMAIL_NOTFOUND_MESSAGE);
 	}
 
-//	@Override
-//	public String deleteGuest(GuestDto dto) {
-//	    Optional<Guest> optional = guestRepository.findByEmail(dto.getEmail());
-//	    if (optional.isPresent()) {
-//	        Guest guest = optional.get();
-//
-//	        List<Reservation> reservations = guest.getReservations();
-//	        for (Reservation reservation : reservations) {
-//	            List<Room> rooms = reservation.getRooms();
-//	            for (Room room : rooms) {
-//	                List<Reservation> activeReservations = room.getReservations().stream()
-//	                    .filter(r -> !r.isCancelled() && !r.isClosed() && !r.getGuest().equals(guest))
-//	                    .collect(Collectors.toList());
-//	                
-//	                if (activeReservations.isEmpty()) {
-//	                    roomRepository.delete(room);
-//	                } else {
-//	                    room.getReservations().remove(reservation);
-//	                    roomRepository.save(room);
-//	                }
-//	            }
-//	        }
-//	        reservationRepository.deleteAll(reservations);
-//	        guestRepository.delete(guest);
-//	        return GUEST_DETAILS_DELETED_MESSAGE;
-//	    }
-//	    throw new HotelException(GUEST_EMAIL_NOTFOUND_MESSAGE);
-//	}
-
-	
 	@Override
 	public String saveRooms(RoomDto dto) {
 		if(!roomRepository.findByRoomNumber(dto.getRoomNumber()).isPresent()) {
@@ -178,62 +163,63 @@ public class HotelManagmentServiceImpl implements HotelManagmentService{
 		}
 	}
 
-	//	@Override
-	//	public String saveReservation(ReservationDtoList dto) {
-	//		Optional<Guest> optional=guestRepository.findByEmail(dto.getEmail());
-	//		if(optional.isPresent()) {
-	//			Guest guest=optional.get();
-	//			Reservation reservation=ObjectUtil.dtoToReservationEntity(dto);
-	//			guest.getReservations().add(reservation);
-	//			reservation.setGuest(guest);
-	//
-	////			List<Integer> rooms = dto.getRooms();
-	//			List<Room>	roomsList=dto.getRooms().stream().map(i->{
-	//				Optional<Room> r=roomRepository.findById(i);
-	//				return r.get();
-	//			}).toList();
-	//
-	//			roomsList.stream().forEach(room -> room.getReservations().add(reservation));
-	//			reservation.setRooms(roomsList);
-	//			guestRepository.save(guest);
-	//			roomRepository.saveAll(roomsList);
-	//			reservationRepository.save(reservation);
-	//			return RESERVATION_DETAILS_SAVED_MESSAGE;
-	//		}
-	//
-	//		else {
-	//			throw new HotelException(GUEST_EMAIL_NOTFOUND_MESSAGE);
-	//		}
-	//	}
+//	@Override
+//	public String saveReservation(ReservationDtoList dto) {
+//		Optional<Guest> optional=guestRepository.findByEmail(dto.getEmail());
+//		if(optional.isPresent()) {
+//			Guest guest=optional.get();
+//			Reservation reservation=ObjectUtil.dtoToReservationEntity(dto);
+//			guest.getReservations().add(reservation);
+//			reservation.setGuest(guest);
+//
+//			List<Integer> rooms = dto.getRooms();
+//			List<Room>	roomsList=dto.getRooms().stream().map(i->{
+//				Optional<Room> r=roomRepository.findById(i);
+//				return r.get();
+//			}).toList();
+//
+//			roomsList.stream().forEach(room -> room.getReservations().add(reservation));
+//			reservation.setRooms(roomsList);
+//			guestRepository.save(guest);
+//			roomRepository.saveAll(roomsList);
+//			reservationRepository.save(reservation);
+//			return RESERVATION_DETAILS_SAVED_MESSAGE;
+//		}
+//
+//		else {
+//			throw new HotelException(GUEST_EMAIL_NOTFOUND_MESSAGE);
+//		}
+//	}
+	
 	@Override
 	public String saveReservation(ReservationDtoList dto) {
-		Optional<Guest> optional = guestRepository.findByEmail(dto.getEmail());
-		if (optional.isPresent()) {
-			Guest guest = optional.get();
-			Optional<Reservation> activeReservation = guest.getReservations().stream()
-					.filter(reservation -> !reservation.isCancelled() && !reservation.isClosed())
-					.findFirst();
-
-			if (activeReservation.isPresent()) {
-				throw new HotelException("Guest already has an active reservation.");
-			} else {
-				Reservation reservation = ObjectUtil.dtoToReservationEntity(dto);
-				reservation.setGuest(guest);
-				List<Room> roomsList = dto.getRooms().stream().map(i -> {
-					Optional<Room> r = roomRepository.findById(i);
-					return r.orElseThrow(() -> new HotelException("Room with ID " + i + " not found"));
-				}).toList();
-				reservation.setRooms(roomsList);
-				roomsList.forEach(room  -> room.getReservations().add(reservation));
-				guest.getReservations().add(reservation);
-
-				guestRepository.save(guest);
-				roomRepository.saveAll(roomsList);
-				return RESERVATION_DETAILS_SAVED_MESSAGE;
-			}
-		} else {
-			throw new HotelException(GUEST_EMAIL_NOTFOUND_MESSAGE);
-		}
+	    Optional<Guest> optional = guestRepository.findByEmail(dto.getEmail());
+	    if (optional.isPresent()) {
+	        Guest guest = optional.get();
+	        Optional<Reservation> activeReservation = guest.getReservations().stream()
+	            .filter(reservation -> !reservation.isCancelled() && !reservation.isClosed())
+	            .findFirst();
+	        
+	        if (activeReservation.isPresent()) {
+	            throw new HotelException("Guest already has an active reservation.");
+	        } else {
+	            Reservation reservation = ObjectUtil.dtoToReservationEntity(dto);
+	            reservation.setGuest(guest);
+	            List<Room> roomsList = dto.getRooms().stream().map(i -> {
+	                Optional<Room> r = roomRepository.findById(i);
+	                return r.orElseThrow(() -> new HotelException("Room with ID " + i + " not found"));
+	            }).toList();
+	            reservation.setRooms(roomsList);
+	            roomsList.forEach(room -> room.getReservations().add(reservation));
+	            guest.getReservations().add(reservation);
+	            
+	            guestRepository.save(guest);
+	            roomRepository.saveAll(roomsList);
+	            return RESERVATION_DETAILS_SAVED_MESSAGE;
+	        }
+	    } else {
+	        throw new HotelException(GUEST_EMAIL_NOTFOUND_MESSAGE);
+	    }
 	}
 
 	@Override
@@ -395,6 +381,35 @@ public class HotelManagmentServiceImpl implements HotelManagmentService{
 			return "Staff Deleted Succesfully!!";
 		}
 		throw new AdminExistenceException("Staff Id not Found!");
+	}
+
+	@Override
+	public String addMessage(FeedbackDto dto) {
+	
+	   Optional<Guest> optional = guestRepository.findByEmail(dto.getEmail());
+	   if(optional.isPresent()) {
+			Feedback contact = ObjectUtil.dtoToContactEntity(dto);
+			feedbackRepository.save(contact);
+		     return GUEST_MESSAGE_SAVED_SUCCESS;
+	   }
+		throw new HotelException(GUEST_EMAILID_NOT_FOUND);
+	}
+
+	@Override
+	public List<FeedbackDto> getAllData() {
+		return feedbackRepository.findAll().stream().map(x->FeedbackDto.builder().feedbackId(x.getFeedbackId())
+				.name(x.getName()).email(x.getEmail()).subject(x.getSubject()).message(x.getMessage()).build()).toList();
+	}
+
+	@Override
+	public String addSubscribe(SubscribeDto dto) {
+		Optional<Subscribe> optional = subscribeRepository.findByEmailId(dto.getEmailId());
+		if(!optional.isPresent()) {
+			Subscribe subscribe = Subscribe.builder().emailId(dto.getEmailId()).build();
+			 Subscribe subscribes = subscribeRepository.save(subscribe);
+			return subscribes.getEmailId();
+		}
+		throw new HotelException(DUPLICATE_SUBSCRIPTION_MESSAGE);
 	}
 
 }

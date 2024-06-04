@@ -1,10 +1,7 @@
 package com.excel.hms.entity;
-import com.excel.hms.enums.RoleType;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -20,21 +17,15 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "admin")
+@Table(name = "subscribe")
 @Builder
-public class Admin {
+public class Subscribe {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer adminNo;
-
-	private String password;
-
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	private Integer subscribeId;
+	
 	@Column(unique = true)
-	private String adminName;
-
-	@Enumerated(EnumType.STRING)
-	private RoleType roleType;
+	private String emailId;
+	
 }
-
-

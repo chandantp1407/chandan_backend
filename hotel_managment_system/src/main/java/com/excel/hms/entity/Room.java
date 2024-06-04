@@ -31,7 +31,9 @@ public class Room {
 	private String roomNumber;
 	
 	private String type;
+	
 	private Double rate;
+	
 	private String description;
 	
 	@Column(name = "is_available")

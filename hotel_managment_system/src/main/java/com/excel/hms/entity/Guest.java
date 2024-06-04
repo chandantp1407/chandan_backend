@@ -25,6 +25,7 @@ public class Guest {
 	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer guestId;
 	
+	
 	private String firstName;
 	private String lastName;
 	@Column(unique = true)
