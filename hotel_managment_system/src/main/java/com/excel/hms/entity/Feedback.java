@@ -22,7 +22,7 @@ import lombok.Setter;
 public class Feedback {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer feedbackId;
 	
 	private String name;

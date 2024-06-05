@@ -297,12 +297,12 @@ public class HotelManagmentServiceImpl implements HotelManagmentService{
 	}
 
 	@Override
-	public String adminLogin(AdminDTO dto) {
+	public AdminDTO adminLogin(AdminDTO dto) {
 		Optional<Admin> optional = adminRepository.findByAdminName(dto.getAdminName());
 		if (optional.isPresent()) {
 			Admin admin = optional.get();
 			if (admin.getPassword().equals(dto.getPassword())) {
-				return admin.getRoleType().getRoleType();
+				return AdminUtil.dtoToEntity(admin);
 			} else {
 				throw new AdminExistenceException("Invalid Password!");
 			}

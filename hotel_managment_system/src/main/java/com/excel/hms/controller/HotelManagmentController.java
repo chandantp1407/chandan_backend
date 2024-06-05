@@ -1,6 +1,7 @@
 package com.excel.hms.controller;
 
 import java.util.List;
+
 import static com.excel.hms.constant.GuestConstant.GUEST_DETAILS_SAVED_MESSAGE;
 import static com.excel.hms.constant.GuestConstant.GUESTS_DETAILS_FETCHED_MESSAGE;
 import static com.excel.hms.constant.GuestConstant.GUEST_DETAILS_UPDATED_MESSAGE;
@@ -157,9 +158,9 @@ public class HotelManagmentController {
 	}
 
 	@PostMapping("/login")
-	public ResponseEntity<CommonResponse<String>>postAdminLogin(@RequestBody AdminDTO dto){
-		String adminName = hotelManagmentService.adminLogin(dto);
-		return ResponseEntity.status(HttpStatus.ACCEPTED).body(CommonResponse.<String>builder().data(adminName)
+	public ResponseEntity<CommonResponse<AdminDTO>>postAdminLogin(@RequestBody AdminDTO dto){
+		AdminDTO adminName = hotelManagmentService.adminLogin(dto);
+		return ResponseEntity.status(HttpStatus.ACCEPTED).body(CommonResponse.<AdminDTO>builder().data(adminName)
 				.isError(false).message(ADMIN_LOGIN_MESSAGE).build());	
 	}
 	@PutMapping("/update")

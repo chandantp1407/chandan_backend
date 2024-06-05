@@ -35,7 +35,7 @@ public interface HotelManagmentService {
 
 	public Integer addAdminInfo(AdminDTO dto);
 
-	public String adminLogin(AdminDTO dto);
+	public AdminDTO adminLogin(AdminDTO dto);
 
 	public AdminDTO updateAdminPassword(AdminDTO dto);
 

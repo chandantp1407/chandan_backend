@@ -22,7 +22,7 @@ import lombok.Setter;
 public class Subscribe {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer subscribeId;
 	
 	@Column(unique = true)
