@@ -411,6 +411,5 @@ public class HotelManagmentServiceImpl implements HotelManagmentService{
 		}
 		throw new HotelException(DUPLICATE_SUBSCRIPTION_MESSAGE);
 	}
-
 }
 
