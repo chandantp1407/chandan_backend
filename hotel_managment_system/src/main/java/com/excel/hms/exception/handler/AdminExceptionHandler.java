@@ -15,6 +15,5 @@ public class AdminExceptionHandler {
 		return ResponseEntity.ok(exe.getMessage());
 	}
 
-
 }
 

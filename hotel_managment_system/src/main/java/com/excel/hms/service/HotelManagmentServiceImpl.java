@@ -1,6 +1,7 @@
 package com.excel.hms.service;
 
 import java.util.List;
+
 import static com.excel.hms.constant.GuestConstant.GUEST_DETAILS_DELETED_MESSAGE;
 import static com.excel.hms.constant.GuestConstant.GUEST_EMAIL_FOUND_MESSAGE;
 import static com.excel.hms.constant.GuestConstant.GUEST_EMAIL_NOTFOUND_MESSAGE;
@@ -13,7 +14,6 @@ import static com.excel.hms.constant.ReservationConstant.RESERVATION_DETAILS_SAV
 import static com.excel.hms.constant.GuestConstant.GUEST_EMAILID_NOT_FOUND;
 import static com.excel.hms.constant.GuestConstant.GUEST_MESSAGE_SAVED_SUCCESS;
 import static com.excel.hms.constant.GuestConstant.DUPLICATE_SUBSCRIPTION_MESSAGE;
-import static com.excel.hms.constant.GuestConstant.SUBSCRIPTION_SUCCESSFULL;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -51,7 +51,6 @@ import jakarta.persistence.NonUniqueResultException;
 @Service
 public class HotelManagmentServiceImpl implements HotelManagmentService{
 
-	
 
 	@Autowired
 	private GuestRepository guestRepository;
